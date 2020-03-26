@@ -1,0 +1,9 @@
+.feedbackbuttons{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+body{
+    padding: 5%;
+}
