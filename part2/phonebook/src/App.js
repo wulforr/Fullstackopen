@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './Filter'
+import AddContact from './AddContact'
+import DisplayContact from './DisplayContact'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -33,30 +36,16 @@ const handleNumberChange = (e) => {
 
 const handleSearchChange = (e) => {
   setSearchValue(e.target.value)
-  // let patt = new RegExp(e.target.value,'i')
-  // setFilteredName(persons.filter(ele => patt.test(ele.name)))
-  // setFilteredName(persons.filter(ele => ele.name === e.target.value))
 }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      filter shown with <input value={searchValue} onChange={handleSearchChange} />
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleChange} />
-        </div>
-        <div>
-          number: <input type = 'number' value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleOnAdd} >add</button>
-        </div>
-      </form>
+        <Filter searchValue={searchValue} handleSearchChange={handleSearchChange} />
+        <AddContact newName={newName} newNumber={newNumber} handleOnAdd={handleOnAdd} handleChange={handleChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
     {/* {filteredName.map(ele => <p key={ele.id}>{ele.name} {ele.number}</p> )} */}
-    {persons.filter(ele => new RegExp('^'+searchValue,'i').test(ele.name)).map(ele => <p key={ele.id}>{ele.name} {ele.number}</p> )}
-
+        <DisplayContact persons={persons} searchValue={searchValue} />
     </div>
   )
 }
