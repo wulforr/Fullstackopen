@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Filter from './Filter'
 import AddContact from './AddContact'
 import DisplayContact from './DisplayContact'
+import axios from 'axios'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -12,6 +13,10 @@ const App = () => {
   const [searchValue, setSearchValue] = useState('')
   // const [filteredName, setFilteredName] = useState(persons)
 
+useEffect(() => {
+  axios.get('http://localhost:3001/persons')
+  .then(res => setPersons(res.data))
+},[])
 
 
 const handleOnAdd = (e) => {
