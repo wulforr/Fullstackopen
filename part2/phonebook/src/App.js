@@ -16,7 +16,7 @@ const App = () => {
 useEffect(() => {
   axios.get('http://localhost:3001/persons')
   .then(res => setPersons(res.data))
-},[])
+},[]    )
 
 
 const handleOnAdd = (e) => {
