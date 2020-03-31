@@ -16,11 +16,13 @@ const deleteContact = (id) => {
     .catch(err => console.log(err))
 }
 
-const updateContact = (id,updatedContact) => {
+const updateContact = (id,updatedContact,setMessage) => {
     console.log('updating')
     axios.put(baseurl+'/'+(id+1),updatedContact)
     .then(res => console.log(res))
-    .catch(err => console.log(err))
+    .catch(err => {console.log(err)
+        setMessage(`${updatedContact.name} has already been removed`)
+    })
 }
 
 export default {

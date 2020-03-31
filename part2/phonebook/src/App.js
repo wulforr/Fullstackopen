@@ -4,6 +4,7 @@ import AddContact from './AddContact'
 import DisplayContact from './DisplayContact'
 import axios from 'axios'
 import Backend from './Backend'
+import ShowNotification from './ShowNotification'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -12,6 +13,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [newNumber, setNumber] = useState('')
   const [searchValue, setSearchValue] = useState('')
+  const [message, setMessage] = useState('')
   // const [filteredName, setFilteredName] = useState(persons)
 
 useEffect(() => {
@@ -29,15 +31,14 @@ const handleOnAdd = (e) => {
     const updatedPersons = [...persons,newContact]
     setPersons(updatedPersons)
     Backend.addContact(newContact);
-    // axios.post('http://localhost:3001/persons',newContact)
-    // .then(res => console.log(res))
+    setMessage(`added ${newName}`)
+    setTimeout(() => {setMessage(null)}, 5000)
 
   }
   else{
     if(window.confirm(`${newName} is already present do you want to update the number`)){
       const updatedContact = {...persons[index],number:newNumber}
-      Backend.updateContact(index,updatedContact)
-      // const newPersons = [...persons.filter(ele => ele.id !== index+1),updatedContact]
+      Backend.updateContact(index,updatedContact,setMessage)
       const newPersons = persons.map(ele => {
         if(ele.id === index+1)
           return updatedContact
@@ -45,6 +46,8 @@ const handleOnAdd = (e) => {
           return ele
       })
       setPersons(newPersons)
+      setMessage(`updated ${newName}`)
+      setTimeout(() => {setMessage(null)}, 5000)
     }
 }}
 
@@ -63,6 +66,7 @@ const handleSearchChange = (e) => {
   return (
     <div>
       <h2>Phonebook</h2>
+        <ShowNotification message={message} />
         <Filter searchValue={searchValue} handleSearchChange={handleSearchChange} />
         <AddContact newName={newName} newNumber={newNumber} handleOnAdd={handleOnAdd} handleChange={handleChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
