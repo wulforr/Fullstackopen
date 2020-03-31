@@ -3,6 +3,7 @@ import Filter from './Filter'
 import AddContact from './AddContact'
 import DisplayContact from './DisplayContact'
 import axios from 'axios'
+import Backend from './Backend'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -21,14 +22,30 @@ useEffect(() => {
 
 const handleOnAdd = (e) => {
   e.preventDefault();
-  if(persons.findIndex(p => p.name === newName) === -1)
+  const index = persons.findIndex(p => p.name === newName)
+  if( index === -1)
   {
-    const updatedPersons = [...persons,{name:newName,id:persons.length+1,number:newNumber}]
+    const newContact = {name:newName,id:persons.length+1,number:newNumber};
+    const updatedPersons = [...persons,newContact]
     setPersons(updatedPersons)
+    Backend.addContact(newContact);
+    // axios.post('http://localhost:3001/persons',newContact)
+    // .then(res => console.log(res))
 
   }
   else{
-    alert(`${newName} name is already taken`)
+    if(window.confirm(`${newName} is already present do you want to update the number`)){
+      const updatedContact = {...persons[index],number:newNumber}
+      Backend.updateContact(index,updatedContact)
+      // const newPersons = [...persons.filter(ele => ele.id !== index+1),updatedContact]
+      const newPersons = persons.map(ele => {
+        if(ele.id === index+1)
+          return updatedContact
+        else
+          return ele
+      })
+      setPersons(newPersons)
+    }
 }}
 
 const handleChange = (e) => {
@@ -50,7 +67,7 @@ const handleSearchChange = (e) => {
         <AddContact newName={newName} newNumber={newNumber} handleOnAdd={handleOnAdd} handleChange={handleChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
     {/* {filteredName.map(ele => <p key={ele.id}>{ele.name} {ele.number}</p> )} */}
-        <DisplayContact persons={persons} searchValue={searchValue} />
+        <DisplayContact persons={persons} searchValue={searchValue} setPersons={setPersons} />
     </div>
   )
 }
