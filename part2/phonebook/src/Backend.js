@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseurl = 'http://localhost:3001/persons'
+const baseurl = 'https://cherry-surprise-97889.herokuapp.com/api/persons'
 
 const addContact = (newContact) => {
     console.log('adding contact')
@@ -18,7 +18,7 @@ const deleteContact = (id) => {
 
 const updateContact = (id,updatedContact,setMessage) => {
     console.log('updating')
-    axios.put(baseurl+'/'+(id+1),updatedContact)
+    axios.put(baseurl+'/'+id,updatedContact)
     .then(res => console.log(res))
     .catch(err => {console.log(err)
         setMessage(`${updatedContact.name} has already been removed`)

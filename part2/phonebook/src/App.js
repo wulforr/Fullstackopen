@@ -17,7 +17,7 @@ const App = () => {
   // const [filteredName, setFilteredName] = useState(persons)
 
 useEffect(() => {
-  axios.get('http://localhost:3001/persons')
+  axios.get('https://cherry-surprise-97889.herokuapp.com/api/persons')
   .then(res => setPersons(res.data))
 },[]    )
 
@@ -38,9 +38,9 @@ const handleOnAdd = (e) => {
   else{
     if(window.confirm(`${newName} is already present do you want to update the number`)){
       const updatedContact = {...persons[index],number:newNumber}
-      Backend.updateContact(index,updatedContact,setMessage)
+      Backend.updateContact(persons[index].id,updatedContact,setMessage)
       const newPersons = persons.map(ele => {
-        if(ele.id === index+1)
+        if(ele.id === persons[index].id)
           return updatedContact
         else
           return ele
@@ -62,6 +62,8 @@ const handleNumberChange = (e) => {
 const handleSearchChange = (e) => {
   setSearchValue(e.target.value)
 }
+
+console.log(persons)
 
   return (
     <div>
