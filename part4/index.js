@@ -8,7 +8,7 @@ const blogRouter = require('./controllers/blogs')
 
 
 
-logger.info('connecting to', config.MONGODB_URI)
+logger.info('connecting to', config.MONGOURL)
 
 mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => logger.info('connected succesfully'))
