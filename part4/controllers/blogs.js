@@ -10,14 +10,32 @@ blogRouter.get('/', (request, response) => {
         })
 })
 
-blogRouter.post('/', (request, response) => {
-    const blog = new Blog(request.body)
+blogRouter.post('/', async (request, response) => {
 
-    blog
-        .save()
-        .then(result => {
-            response.status(201).json(result.toJSON())
+    if(!request.body.title){
+        response.status(400).send('title is missing')
+        return
+    }
+
+    if(!request.body.author){
+        response.status(400).json({
+            err:'author is missing'
         })
+        return
+    }
+
+    const newBlog = {
+        title: request.body.title,
+        author:request.body.author,
+        url: request.body.url,
+        likes: request.body.likes === undefined ? 0 : request.body.likes
+    }
+
+    const blog = new Blog(newBlog)
+
+    const res = await blog.save()
+
+    response.status(201).json(res.toJSON())
 })
 
 module.exports = blogRouter

@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
+require('express-async-errors')
 const cors = require('cors')
 const blogRouter = require('./controllers/blogs')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
-
 
 
 logger.info('connecting to', config.MONGOURL)
