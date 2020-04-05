@@ -38,4 +38,16 @@ blogRouter.post('/', async (request, response) => {
     response.status(201).json(res.toJSON())
 })
 
+blogRouter.delete('/:id', async(request,response) => {
+    await Blog.findByIdAndDelete(request.params.id)
+    response.status(204).send('deleted')
+})
+
+blogRouter.put('/:id',async(request,response) => {
+
+    await Blog.findOneAndUpdate({ _id: request.params.id } ,{ $set: { likes:request.body.likes } } )
+    response.send('updated successfully').status(200)
+})
+
+
 module.exports = blogRouter
