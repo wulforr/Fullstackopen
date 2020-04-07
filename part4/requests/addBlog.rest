@@ -5,5 +5,6 @@ Content-Type: application/json
     "title":"blog3",
     "author":"Shaurya2",
     "url":"localhost:3000/blog3",
-    "likes":5
+    "likes":5,
+    "userId":"5e8c907aba794059b0ca2ac2"
 }
