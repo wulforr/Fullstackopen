@@ -4,7 +4,11 @@ const blogSchema = mongoose.Schema({
     title: String,
     author: String,
     url: String,
-    likes: Number
+    likes: Number,
+    User: {
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }
 })
 
 const Blog = mongoose.model('Blog', blogSchema)
