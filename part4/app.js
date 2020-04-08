@@ -16,9 +16,22 @@ mongoose.connect(config.MONGOURL, { useNewUrlParser: true, useUnifiedTopology: t
     .catch(err => logger.error(err))
 
 
+const getToken = (request, response, next ) => {
+    const authorization = request.get('authorization')
+    console.log(authorization)
+    if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+        console.log('inside',authorization.substring(7))
+        return authorization.substring(7)
+    }
+    console.log('outside')
+    return null
+    next()
+}
+
 
 app.use(cors())
 app.use(express.json())
+app.use(getToken)
 app.use('/api/blogs',blogRouter)
 app.use('/api/user',userRouter)
 
