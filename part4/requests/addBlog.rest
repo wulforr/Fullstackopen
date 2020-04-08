@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ild1bGZvcnIiLCJpZCI6IjVlOGNlNjZjMzIxZjQ2Njk5MjI3MDUxMiIsImlhdCI6MTU4NjMwMzk5N30.8Kh2_f2O9ooVXK0cumXMCqBC8hRrPEYOX5AFWenzYKE
 
 {
-    "title":"blog3",
-    "author":"Shaurya2",
+    "title":"blog4",
+    "author":"Shaurya3",
     "url":"localhost:3000/blog3",
     "likes":5,
     "userId":"5e8c907aba794059b0ca2ac2"

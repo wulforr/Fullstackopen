@@ -21,10 +21,10 @@ const getToken = (request, response, next ) => {
     console.log(authorization)
     if(authorization && authorization.toLowerCase().startsWith('bearer ')){
         console.log('inside',authorization.substring(7))
-        return authorization.substring(7)
+        request.token = authorization.substring(7)
     }
     console.log('outside')
-    return null
+    // return null
     next()
 }
 
