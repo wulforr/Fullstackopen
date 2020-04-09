@@ -33,7 +33,7 @@ blogRouter.post('/', async (request, response) => {
     const decodedToken = jwt.verify(token,process.env.SECRET)
 
     if(!token || !decodedToken.id){
-        return response.status(400).json({
+        return response.status(401).json({
             err:'invalid or missing token'
         })
     }
@@ -65,13 +65,13 @@ blogRouter.delete('/:id', async(request,response) => {
     const decodedToken = jwt.verify(token,process.env.SECRET)
 
     if(!token || !decodedToken.id){
-        return response.status(400).json({
+        return response.status(401).json({
             err: 'invalid token'
         })
     }
     console.log(blog.User,decodedToken.id)
     if(blog.User.toString() !== decodedToken.id.toString()){
-        return response.status(400).json({
+        return response.status(401).json({
             err:'You cannot delete this blog as you are not the user'
         })
     }

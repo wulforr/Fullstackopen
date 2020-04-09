@@ -11,20 +11,36 @@ describe('apitest',() => {
         title:'blog1',
         author:'shaurya1',
         url:'localhost/shaurya1/blog1',
-        likes:5
+        likes:5,
+        User:'5e8fa04c1c9d440000c0dd0c'
     },
     {
         title:'blog2',
         author:'shaurya2',
         url:'localhost/shaurya2/blog2',
-        likes:7
+        likes:7,
+        User:'5e8fa04c1c9d440000c0dd0c'
     },
     {
         title:'blog3',
         author:'shaurya3',
         url:'localhost/shaurya3/blog3',
-        likes:9
+        likes:9,
+        User:'5e8fa04c1c9d440000c0dd0c'
     }]
+
+    let token = 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ild1bGZvcnIiLCJpZCI6IjVlOGNlNjZjMzIxZjQ2Njk5MjI3MDUxMiIsImlhdCI6MTU4NjM4ODU3Nn0.q0G5kdmzcHuv92G7gQOSaG7L6iUHWrajj3OUv9Ui3qQ'
+
+    beforeAll( async() => {
+        const loginDetails = {
+            userName: 'Wulforr',
+            password:'mypasswordisstrong'
+        }
+        const user = await api.post('/user/login')
+            .send(loginDetails)
+        console.log('user',user.body)
+        token = 'bearer ' + user.token
+    })
 
     beforeEach(async() => {
         jest.setTimeout(20000)
@@ -59,10 +75,12 @@ describe('apitest',() => {
             title: 'blog',
             author: 'shaurya',
             url:'localhost/shaurya/blog',
-            likes:5
+            likes:5,
+            UserId: '5e8c907aba794059b0ca2ac2'
         }
         await api.post('/api/blogs')
             .send(newBlog)
+            .set({ Authorization: token })
             .expect(201)
             .expect('Content-Type',/application\/json/)
 
@@ -78,6 +96,7 @@ describe('apitest',() => {
         }
         await api.post('/api/blogs')
             .send(newBlog)
+            .set({ Authorization: token })
             .expect(201)
             .expect('Content-Type',/application\/json/)
 
@@ -94,11 +113,26 @@ describe('apitest',() => {
 
         await api.post('/api/blogs')
             .send(newBlog)
+            .set({ Authorization: token })
             .expect(400)
             // .expect('Content-Type',/application\/json/)
 
         const response = await api.get('/api/blogs')
         expect(response.body).toHaveLength(initialBlogs.length)
+    })
+
+    test('if token is not provided it gives 401 error', async () => {
+        const newBlog = {
+            author:'shaurya',
+            url:'asadsqda',
+            likes:7,
+            title:'wwasf',
+            UserId:'5e8c907aba794059b0ca2ac2'
+        }
+
+        await api.post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
     })
 
     afterAll(() => {
