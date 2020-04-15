@@ -33,6 +33,9 @@ const reducer = (state = initialState, action) => {
     case 'ADD': {
       return [...state,asObject(action.content)]
     }
+    case 'ADDALL' : {
+      return action.data
+    }
     default:
       return state
   }
@@ -49,6 +52,13 @@ export const addAnec = (content) => {
   return {
     type:'ADD',
     content
+  }
+}
+
+export const initAnecdotes = (anecdotes) => {
+  return {
+    type:'ADDALL',
+    data: anecdotes
   }
 }
 
