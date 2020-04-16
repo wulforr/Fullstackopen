@@ -17,4 +17,12 @@ export const addNewAnecdote = async(anecdote) => {
     return res.data
 }
 
+export const updateVote = async(anecdote) => {
+    const updatedAnecdote = {...anecdote,votes:anecdote.votes+1}
+    console.log(updatedAnecdote);
+    
+    const res = await axios.put(`${baseUrl}/${anecdote.id}`,updatedAnecdote)
+    return res.data
+}
+
 export default getAll

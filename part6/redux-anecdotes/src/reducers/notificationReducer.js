@@ -19,4 +19,18 @@ export const deleteNotification = () => {
     }
 }
 
+export const setNotification = (notification,time) => {
+    return async dispatch => {
+        dispatch({
+            type: 'ADDNOTIF',
+            notification
+        })
+        setTimeout(() => {
+            dispatch({
+                type:'REMOVENOTIF'
+            })
+        }, time);
+    }
+}
+
 export default reducer

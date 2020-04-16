@@ -1,3 +1,8 @@
+import getAll from '../services/anecdoteService'
+import {addNewAnecdote, updateVote} from '../services/anecdoteService'
+
+
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -41,25 +46,38 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export const addVote = (id) => {
-  return {
-    type:'VOTE',
-    id
+export const addVote = (anecdote) => {
+
+  return async dispatch => {
+    const res = await updateVote(anecdote)
+    console.log(res)
+    dispatch({
+      type:'VOTE',
+      id: res.id
+    })
   }
 }
 
-export const addAnec = (content) => {
-  return {
-    type:'ADD',
-    content
+export const addAnec = (anecdote) => {
+  return async (dispatch) => {
+    const res = await addNewAnecdote(anecdote)
+    // console.log(content);    
+    dispatch({
+      type:'ADD',
+      content: res.content
+    })
   }
 }
 
-export const initAnecdotes = (anecdotes) => {
-  return {
-    type:'ADDALL',
-    data: anecdotes
-  }
+export const initAnecdotes = () => {
+
+  return async dispatch => {
+    const anecdotes = await getAll()
+    dispatch ({
+      type:'ADDALL',
+      data: anecdotes
+    })
+}
 }
 
 
