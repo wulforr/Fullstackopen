@@ -14,22 +14,26 @@ export const addNotification = (notification) => {
 }
 
 export const deleteNotification = () => {
+    console.log('removed', new Date())
     return {
         type: 'REMOVENOTIF'
     }
 }
 
-export const setNotification = (notification,time) => {
+let timeoutId = 0
+
+export const setNotification = (notification, time) => {
+    window.clearTimeout(timeoutId)
     return async dispatch => {
         dispatch({
             type: 'ADDNOTIF',
             notification
         })
-        setTimeout(() => {
+        timeoutId = setTimeout(() => {
             dispatch({
-                type:'REMOVENOTIF'
+                type: 'REMOVENOTIF'
             })
-        }, time);
+        }, time)
     }
 }
 
