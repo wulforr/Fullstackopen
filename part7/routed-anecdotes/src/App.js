@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Route, BrowserRouter, Switch, Link, useParams, useHistory } from 'react-router-dom'
+import { useField } from './hooks/index'
 
 const Menu = () => {
   const padding = {
@@ -47,24 +48,44 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  // const [content, setContent] = useState('')
+  // const [author, setAuthor] = useState('')
+  // const [info, setInfo] = useState('')
+
+  const contentField = useField('text')
+  const authorField = useField('text')
+  const urlField = useField('text')
+  const contentFieldProps = Object.assign({}, contentField)
+  delete contentFieldProps.reset
+  const authorFieldProps = Object.assign({}, authorField)
+  delete authorFieldProps.reset
+  const urlFieldProps = Object.assign({}, urlField)
+  delete urlFieldProps.reset
+
+
   const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: contentField.value,
+      author: authorField.value,
+      info: urlField.value,
       votes: 0
     })
     history.push('/')
-    props.setNotification(`a new anecdote ${content} created`)
+    props.setNotification(`a new anecdote ${contentField.value} created`)
     setTimeout(() => {
       props.setNotification(null)
-    }, 10000);
+    }, 10000)
+  }
+
+  const handleReset = (e) => {
+    e.preventDefault()
+    // contentReset()
+    contentField.reset()
+    authorField.reset()
+    urlField.reset()
   }
 
   return (
@@ -73,17 +94,18 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input name='content' {...contentFieldProps} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input name='author' {...authorFieldProps} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
+          <input name='info' {...urlFieldProps} />
         </div>
         <button>create</button>
+        <button onClick={handleReset}>Reset</button>
       </form>
     </div>
   )
